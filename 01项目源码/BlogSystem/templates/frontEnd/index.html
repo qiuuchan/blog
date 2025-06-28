@@ -1,0 +1,194 @@
+﻿<!DOCTYPE HTML>
+<html class="no-js" lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="author" content="smartit-source">
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">	
+		<!-- title here -->
+		<title>Django个人博客系统</title>
+        <!-- Favicon and Touch Icons -->
+        <link rel="shortcut icon" href="/static/frontEnd/assets/images/fav.png">
+		<!-- Place favicon.ico in the root directory -->
+		<link rel="apple-touch-icon" href="apple-touch-icon.png">
+		<!-- Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		<link rel="stylesheet" href="/static/frontEnd/assets/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/static/frontEnd/assets/css/flaticon.css">
+		<!-- Plugin CSS -->
+		<link rel="stylesheet" href="/static/frontEnd/assets/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/static/frontEnd/assets/css/animate.css">
+		<link rel="stylesheet" href="/static/frontEnd/assets/css/magnific-popup.css">
+		<link rel="stylesheet" href="/static/frontEnd/assets/css/owl.carousel.css">
+		<link rel="stylesheet" href="/static/frontEnd/assets/css/owl.theme.css">
+		<link rel="stylesheet" href="/static/frontEnd/assets/css/owl.transitions.css">	
+		<link rel="stylesheet" href="/static/frontEnd/assets/css/jquery.barfiller.css">							
+		<!--Theme custom css -->
+		<link rel="stylesheet" href="/static/frontEnd/assets/css/style.css">
+		<!--Theme Responsive css-->
+		<link rel="stylesheet" href="/static/frontEnd/assets/css/responsive.css" />
+		<script src="/static/frontEnd/assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <link rel="stylesheet" href="/static/layui/css/layui.css" />
+        <style>
+            #centent{
+                display: -webkit-box;
+                overflow: hidden;
+                -webkit-line-clamp: 5;
+                -webkit-box-orient: vertical;
+            }
+        </style>
+	</head>
+	<body>
+
+        {% include 'frontEnd/header.html' %}
+
+        {% include 'frontEnd/nav-menu.html' %}
+		<!-- menu area start here -->
+		<!-- banner area start here -->
+		<div class="banner-area">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8">
+						<div class="banner-content">
+							<div class="banner-title">
+								<h1>欢迎来的pjz的博客</h1>
+							</div>
+							<div class="banner-subtitle">
+								<h4>学习 & 探索</h4>
+							</div>
+
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="banner-img">
+							<img src="/static/frontEnd/assets/images/banner/1.png" alt="banner">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 博客内容	 -->
+		<div class="post-area">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-10 col-lg-offset-1 col-md-12">
+
+                        {% for article in ArticleList %}
+						<div class="single-post">
+							<div class="inner-post">
+{#								<div class="post-img">#}
+{#									<a href="#"><img src={{ imgs }} alt="blog"></a>#}
+{#								</div>#}
+								<div class="post-info">
+									<div class="post-title">
+										<h3><a href="/MyArticle/?id={{ article.id }}">{{ article.title }}</a></h3>
+                                        <h4>{{ article.tag }}</h4>
+									</div>
+                                    <br>
+									<div class="post-content">
+										<p id="centent" >{{ article.content }}</p>
+									</div>
+									<div class="blog-meta fix" >
+										<div class="meta-left pull-left">
+											<ul>
+												<li> <span class="flaticon-calendar clendar"></span> <p>{{ article.updateTime }}</p></li>
+											</ul>
+										</div>
+										<div class="post-readmore pull-right">
+											<a href="/MyArticle/?id={{ article.id }}" class="readmore-btn">更多 <span>+</span></a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="post-date one">
+								<span>{{ forloop.counter }}</span>
+							</div>
+						</div>
+                        {% empty %}
+                            <h2> 空空如也～</h2>
+                        {% endfor %}
+
+					</div>
+					<div class="col-lg-10 col-lg-offset-1 col-md-12">
+                            <div id="myPage" data-value="{{ CountList }}"></div>
+					</div>
+
+				</div>
+			</div>
+			<!-- leaf left area start here	 -->
+			<div class="leaf-left">
+				<img src="/static/frontEnd/assets/images/leaf-left.png" alt="leaf-right">
+			</div>
+			<!-- leaf left area end here	 -->
+			<!-- leaf right area start here	 -->
+			<div class="leaf-right">
+				<img src="/static/frontEnd/assets/images/leaf-right.png" alt="leaf-right">
+			</div>
+			<!-- leaf right area end here	 -->
+		</div>
+		<!-- 博客内容 结束	 -->
+
+        {% include 'frontEnd/footer.html' %}
+		<!-- 底部结束 -->
+		<!-- js file start -->
+		<script src="/static/frontEnd/assets/js/vendor/jquery-1.12.0.min.js"></script>
+		<script src="/static/frontEnd/assets/js/plugins.js"></script>
+		<script src="/static/frontEnd/assets/js/Popper.js"></script>
+		<script src="/static/frontEnd/assets/js/bootstrap.min.js"></script>
+		<script src="/static/frontEnd/assets/js/jquery.magnific-popup.min.js"></script>
+		<script src="/static/frontEnd/assets/js/owl.carousel.min.js"></script>
+		<script src="/static/frontEnd/assets/js/isotope.pkgd.min.js"></script>
+		<script src="/static/frontEnd/assets/js/imagesloaded.pkgd.min.js"></script>	
+		<script src="/static/frontEnd/assets/js/scrollup.js"></script>	
+		<script src="/static/frontEnd/assets/js/jquery.counterup.min.js"></script>	
+		<script src="/static/frontEnd/assets/js/waypoints.min.js"></script>	
+		<script src="/static/frontEnd/assets/js/jquery.appear.js"></script>	
+		<script src="/static/frontEnd/assets/js/jquery.barfiller.js"></script>																																		
+		<script src="/static/frontEnd/assets/js/main.js"></script>
+		<!-- End js file -->
+        <script src="/static/layui/layui.js"></script>
+        <script>
+
+            function GetRequest() {
+               const url = location.search; //获取url中"?"符后的字串
+               let theRequest = new Object();
+               if (url.indexOf("?") != -1) {
+                  let str = url.substr(1);
+                  strs = str.split("&");
+                  for(let i = 0; i < strs.length; i ++) {
+                     theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                  }
+               }
+               return theRequest;
+            }
+
+            layui.use('laypage', function(){
+              var laypage = layui.laypage;
+
+              let count = $('#myPage').data('value');
+
+              let pageIndex = GetRequest().pageIndex;
+              laypage.render({
+                elem: 'myPage' //注意，这里的 test1 是 ID，不用加 # 号
+                  ,layout:['prev', 'page', 'next','count']
+                  ,theme: '#6c62ff'
+                 ,count: count
+                  ,curr: pageIndex
+                  ,limit:5
+                  ,jump: function(obj, first){
+                    //首次不执行
+                    if(!first){
+                      location.href="/MyArticle/?pageIndex="+obj.curr+"&pageSize="+obj.limit
+                    }
+                  }
+              });
+
+
+
+            });
+        </script>
+	</body>
+</html>
+

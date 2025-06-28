@@ -1,0 +1,107 @@
+﻿<!DOCTYPE HTML>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="author" content="smartit-source">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- title here -->
+    <title></title>
+    <!-- Favicon and Touch Icons -->
+    <link rel="shortcut icon" href="/static/frontEnd/assets/images/fav.png">
+    <!-- Place favicon.ico in the root directory -->
+    <link rel="apple-touch-icon" href="">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="/static/frontEnd/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/frontEnd/assets/css/flaticon.css">
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="/static/frontEnd/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/frontEnd/assets/css/animate.css">
+    <link rel="stylesheet" href="/static/frontEnd/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="/static/frontEnd/assets/css/owl.carousel.css">
+    <link rel="stylesheet" href="/static/frontEnd/assets/css/owl.theme.css">
+    <link rel="stylesheet" href="/static/frontEnd/assets/css/owl.transitions.css">
+    <link rel="stylesheet" href="/static/frontEnd/assets/css/jquery.barfiller.css">
+    <!--Theme custom css -->
+    <link rel="stylesheet" href="/static/frontEnd/assets/css/style.css">
+    <!--Theme Responsive css-->
+    <link rel="stylesheet" href="/static/frontEnd/assets/css/responsive.css"/>
+    <script src="/static/frontEnd/assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <!-- Markdown展示 -->
+    <link rel="stylesheet" href="/static/markdown/css/editormd.preview.css"/>
+    <style>
+        /*主要面板*/
+.panel-primary{border-color:#6c62ff}
+.panel-primary > .panel-header{ border-color:#6c62ff; background-color:#6c62ff; color:#fff}
+    </style>
+</head>
+<body>
+ {% include 'frontEnd/header.html' %}
+{% include 'frontEnd/nav-menu.html' %}
+
+<div class="travel-area ">
+    <div class="post-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 col-md-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-header">
+                            <span style="font-size: 2em;padding: 10px;">{{ ArticleList.title }}</span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="Hui-tags-list">
+                        <div class="Hui-tags-has">
+                            <div>标签:{{ ArticleList.tag }}</div>
+                            <div>{{ ArticleList.updateTime }}</div>
+                        </div>
+                    </div>
+                    <div id="myMarkdown">
+                        <textarea style="display:none;">{{ ArticleList.content }}</textarea>
+                    </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+        <div class="leaf-left">
+            <img src="/static/frontEnd/assets/images/leaf-left.png" alt="leaf-right">
+        </div>
+        <div class="leaf-right">
+            <img src="/static/frontEnd/assets/images/leaf-right.png" alt="leaf-right">
+        </div>
+    </div>
+</div>
+{% include 'frontEnd/footer.html' %}
+<script src="/static/frontEnd/assets/js/vendor/jquery-1.12.0.min.js"></script>
+<script src="/static/frontEnd/assets/js/plugins.js"></script>
+<script src="/static/frontEnd/assets/js/Popper.js"></script>
+<script src="/static/frontEnd/assets/js/bootstrap.min.js"></script>
+<script src="/static/frontEnd/assets/js/jquery.magnific-popup.min.js"></script>
+<script src="/static/frontEnd/assets/js/owl.carousel.min.js"></script>
+<script src="/static/frontEnd/assets/js/isotope.pkgd.min.js"></script>
+<script src="/static/frontEnd/assets/js/imagesloaded.pkgd.min.js"></script>
+<script src="/static/frontEnd/assets/js/scrollup.js"></script>
+<script src="/static/frontEnd/assets/js/jquery.counterup.min.js"></script>
+<script src="/static/frontEnd/assets/js/waypoints.min.js"></script>
+<script src="/static/frontEnd/assets/js/jquery.appear.js"></script>
+<script src="/static/frontEnd/assets/js/jquery.barfiller.js"></script>
+<script src="/static/frontEnd/assets/js/main.js"></script>
+<!-- End js file -->
+<script src="/static/markdown/editormd.js"></script>
+<script src="/static/markdown/lib/marked.min.js"></script>
+<script src="/static/markdown/lib/prettify.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var testView = editormd.markdownToHTML("myMarkdown", {
+            htmlDecode: true,  // Enable / disable HTML tag encode.
+        });
+    });
+</script>
+</body>
+</html>
+

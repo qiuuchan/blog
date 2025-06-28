@@ -1,0 +1,273 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="/static/lib/html5shiv.js"></script>
+    <script type="text/javascript" src="/static/lib/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="/static/h-ui/css/H-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/h-ui.admin/css/H-ui.admin.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/lib/Hui-iconfont/1.0.8/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/h-ui.admin/skin/default/skin.css" id="skin"/>
+    <link rel="stylesheet" type="text/css" href="/static/h-ui.admin/css/style.css"/>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <!--[if IE 6]>
+    <script type="text/javascript" src="/static/lib/DD_belatedPNG_0.0.8a-min.js"></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+    <title>文章列表</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 文章管理 <span
+        class="c-gray en">&gt;</span> 文章列表 <a class="btn btn-success radius r" id="refreshBtn"
+                                              style="line-height:1.6em;margin-top:3px"
+                                              href="javascript:location.replace(location.href);" title="刷新"><i
+        class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+    <div class="text-c">
+        <div class="layui-form">
+            <div class="layui-form-item">
+                 <div class="layui-inline">
+                    <div class="layui-input-inline">
+                         <button type="button" class="layui-btn layui-btn-normal" onclick="removeIframe()" >关闭选项卡</button>
+                    </div>
+
+                 </div>
+                <div class="layui-inline">
+                     <label class="layui-form-label">发布状态</label>
+                    <div class="layui-input-inline">
+                        <select name="status" placeholder="状态">
+                            <option value="">请选择状态</option>
+                            <option value="0">草稿</option>
+                            <option value="1">发布</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">日期范围</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="updateTime" id="test1" autocomplete="off" placeholder="日期范围"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                     <label class="layui-form-label">文章标题</label>
+                    <div class="layui-input-inline">
+                        <input type="tel" name="title" autocomplete="off" placeholder="文章名称" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+
+                    <div class="layui-input-inline">
+                       <button type="submit" class="layui-btn" lay-submit="" lay-filter="mySubmit">搜索</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="cl pd-5 bg-1 bk-gray mt-20">
+
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn  layui-btn-normal" lay-event="add">添加</button>
+            </div>
+        </script>
+        <table id="myTable" lay-filter="myTable"></table>
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-sm" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>
+        </script>
+    </div>
+    <!--_footer 作为公共模版分离出去-->
+    <script type="text/javascript" src="/static/lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/lib/layer/2.4/layer.js"></script>
+    <script type="text/javascript" src="/static/h-ui/js/H-ui.min.js"></script>
+    <script type="text/javascript" src="/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+    <!--请在下方写此页面业务相关的脚本-->
+    <script type="text/javascript" src="/static/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+    <script type="text/javascript" src="/static/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/static/lib/laypage/1.2/laypage.js"></script>
+    <script src="/static/layui/layui.js"></script>
+    <script type="text/javascript">
+        layui.use(['table', 'laydate','form'], function () {
+            var table = layui.table;
+            var laydate = layui.laydate;
+            var form = layui.form;
+
+
+            laydate.render({
+                elem: '#test1' //指定元素
+                , range: ','
+                ,max:'date'
+                ,format:'yyyy-MM-dd HH:mm:ss'
+            });
+
+            //第一个实例
+            var tableIns = table.render({
+                elem: '#myTable'
+                , even: true //开启隔行背景
+                , url: '/articleList/' //数据接口
+                , method: "post"
+                , where: {
+                    'title':null,
+                    'status':null,
+                    'updateTime':null,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                }
+                , parseData: function (res) { //res 即为原始返回的数据
+                    return {
+                        "code": res.code,
+                        "msg": res.msg,
+                        "count": res.count,
+                        "data": res.data
+                    };
+                }, request: {
+                    pageName: 'pageIndex' //页码的参数名称，默认：page
+                    , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                }
+                , response: {
+                    statusName: 'code' //规定数据状态的字段名称，默认：code
+                    , statusCode: 2000 //规定成功的状态码，默认：0
+                    , msgName: 'msg' //规定状态信息的字段名称，默认：msg
+                    , countName: 'count' //规定数据总数的字段名称，默认：count
+                    , dataName: 'data' //规定数据列表的字段名称，默认：data
+                }
+                , page: true
+                , limit: 10
+                , limits: [10, 20, 50, 100]
+                , loading: true
+                , toolbar: '#toolbarDemo'
+                , cols: [[ //表头
+                    {field: 'pk', title: 'ID', align: 'center', fixed: 'left'}
+                    , {
+                        field: 'fields.title', title: '名称', align: 'center', templet: function (d) {
+                            return d.fields.title
+                        }
+                    }
+                    , {
+                        field: 'fields.tag', title: '标签', align: 'center', templet: function (d) {
+                            return d.fields.tag
+                        }
+                    }
+                    , {
+                        field: 'fields.status', title: '状态', align: 'center', templet: function (d) {
+                            if (d.fields.status == 0) {
+                                return "草稿"
+                            } else {
+                                return "发布"
+                            }
+
+                        }
+                    }
+                    , {
+                        field: 'fields.createTime', title: '创建时间', align: 'center', templet: function (d) {
+                            return d.fields.createTime
+                        }
+                    }, {
+                        field: 'fields.updateTime', title: '修改时间', align: 'center', templet: function (d) {
+                            return d.fields.updateTime
+                        }
+                    }
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150}
+                ]]
+            });
+
+            //监听行工具事件
+            table.on('tool(myTable)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'del') {
+                    layer.confirm('确认要删除吗？', function (index) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/articleOpt/',
+                            data: {
+                                "id": obj.data.pk,
+                                "isdelete": true,
+                                'csrfmiddlewaretoken': '{{ csrf_token }}'
+                            },
+                            dataType: 'json',
+                            success: function (res) {
+                                obj.del();
+                                layer.msg(res.msg, {icon: 1, time: 1000});
+                                tableIns.reload()
+                            },
+                            error: function (data) {
+                                console.log(data.msg);
+                            },
+                        });
+                    });
+                } else if (obj.event === 'edit') {
+
+                    //let html = '<a data-title="编辑文章" data-href="/articleOpt/?id='+obj.data.pk+'">';
+                    //Hui_admin_tab(html)
+                    layer.open({
+                        type: 2,
+                        maxmin: true,
+                        area: ['100%', '100%'],
+                        content: '/articleOpt/?id=' + obj.data.pk //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                    });
+                }
+            });
+
+            //监听头部工具事件
+            table.on('toolbar(myTable)', function (obj) {
+                var checkStatus = table.checkStatus(obj.config.id);
+                switch (obj.event) {
+                    case 'add':
+                        layer.open({
+                            type: 2,
+                            maxmin: true,
+                            area: ['100%', '100%'],
+                            content: '/articleOpt/' //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                        });
+                        break;
+                    case 'delete':
+                        layer.msg('删除');
+                        break;
+
+                        break;
+                };
+            });
+
+
+                //搜索
+              form.on('submit(mySubmit)', function (data) {
+                  let datas = data.field;
+                  tableIns.reload({
+                  where: { //设定异步数据接口的额外参数，任意设
+                    title: datas['title']
+                    ,status: datas['status']
+                    ,updateTime: datas['updateTime']
+                  }
+                  ,page: {
+                    curr: 1 //重新从第 1 页开始
+                  }
+                });
+
+              })
+
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
